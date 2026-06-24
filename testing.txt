@@ -1,0 +1,163 @@
+===================================================================
+  SKENARIO UJI COBA BLACK BOX TESTING
+  Sistem Informasi Inventory Nita Cell
+  Metode: Black Box Testing (Equivalence Partitions + Boundary Value)
+  Sesuai Tabel 3.3 BAB III Laporan Kerja Praktik
+===================================================================
+
++-----+-----------------------------------+----------------------------------------+----------------------------------------+----------------------------------+--------+
+| No  | Skenario Uji                      | Input / Aksi                           | Output yang Diharapkan                 | Output Aktual                    | Status |
++-----+-----------------------------------+----------------------------------------+----------------------------------------+----------------------------------+--------+
+
+1. LOGIN - DATA VALID
+   Input   : Username: admin | Password: admin123
+   Harapan : Pengguna diarahkan ke halaman Dashboard utama
+   Aktual  : Berhasil masuk ke halaman Dashboard
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+2. LOGIN - PASSWORD SALAH
+   Input   : Username: admin | Password: salah999
+   Harapan : Muncul pesan "Username atau Password salah, silakan coba lagi"
+   Aktual  : Pesan error tampil di halaman login
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+3. LOGIN - FIELD KOSONG
+   Input   : Username: (kosong) | Password: (kosong)
+   Harapan : Muncul pesan "Username dan Password wajib diisi"
+             Form tidak dikirim / browser validasi HTML5
+   Aktual  : Validasi client-side & server-side aktif, pesan error tampil
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+4. TAMBAH DATA BARANG BARU
+   Input   : Kode: BRG009 | Nama: Casing iPhone 15 Pro
+             Kategori: Aksesori | Stok Awal: 20 | Stok Minimum: 5
+             Harga Beli: 30000 | Harga Jual: 55000
+   Harapan : Data barang tersimpan & muncul di tabel daftar barang
+             Notifikasi "Data Barang Berhasil Ditambahkan" tampil
+   Aktual  : Data tersimpan di tabel barang dengan benar
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+5. INPUT BARANG MASUK (stok bertambah otomatis)
+   Input   : Barang: Kabel USB Type-C | Jumlah: 50
+             Supplier: CV Sumber Aksesori | Tanggal: 01/05/2026
+             Harga Beli: 8000
+   Harapan : Stok Kabel USB bertambah 50 unit secara otomatis
+             Transaksi tersimpan di tabel barang_masuk
+             Notifikasi sukses tampil
+   Aktual  : Stok update +50 unit, transaksi tersimpan
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+6. INPUT BARANG KELUAR (stok mencukupi)
+   Input   : Barang: Kabel USB Type-C | Jumlah Keluar: 5
+             Tanggal: 10/05/2026
+   Harapan : Stok berkurang 5 unit, transaksi tersimpan
+             Notifikasi sukses tampil
+   Aktual  : Stok update -5 unit, transaksi tersimpan
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+7. INPUT BARANG KELUAR (stok TIDAK mencukupi) ← VALIDASI KRITIS
+   Input   : Barang: Headset JBL (stok: 4) | Jumlah Keluar: 100
+   Harapan : Muncul pesan error "Stok tidak mencukupi!"
+             Jumlah stok tetap tidak berubah
+             Transaksi TIDAK tersimpan ke database
+   Aktual  : Pesan error tampil (client & server), transaksi dibatalkan
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+8. FILTER LAPORAN BERDASARKAN TANGGAL
+   Input   : Dari: 01/05/2026 | Sampai: 31/05/2026
+             Kategori: (semua) | Status: (semua)
+   Harapan : Tabel laporan menampilkan data transaksi periode Mei 2026
+             Ringkasan total masuk/keluar sesuai filter
+   Aktual  : Data laporan tampil sesuai filter tanggal
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+9. FILTER LAPORAN STOK MENIPIS
+   Input   : Status: Menipis (dropdown)
+   Harapan : Tabel hanya menampilkan barang dengan stok ≤ stok_minimum
+             Badge "Menipis" tampil merah
+   Aktual  : Filter bekerja, hanya barang menipis yang ditampilkan
+   Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+10. EXPORT EXCEL (CSV)
+    Input   : Klik tombol "Export Excel" dengan filter aktif
+    Harapan : File CSV terunduh otomatis dengan nama "laporan_stok_YYYYMMDD.csv"
+              Isi CSV sesuai data yang tampil di tabel laporan
+              File bisa dibuka di Microsoft Excel / LibreOffice Calc
+    Aktual  : File CSV berhasil diunduh, data sesuai
+    Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+11. CETAK PDF (Print)
+    Input   : Klik tombol "Cetak PDF" pada halaman laporan
+    Harapan : Dialog print browser terbuka
+              Tampilan print hanya menampilkan tabel laporan
+              (sidebar, tombol, filter tersembunyi via @media print)
+    Aktual  : Dialog print tampil, layout bersih untuk cetak
+    Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+12. TAMBAH PENGGUNA BARU (Admin)
+    Input   : Nama: Budi | Username: budi01 | Password: budi123
+              Konfirmasi: budi123 | Role: Karyawan
+    Harapan : Akun karyawan berhasil dibuat
+              Budi dapat login dengan kredensial tersebut
+              Password tersimpan dalam bentuk bcrypt hash (bukan plaintext)
+    Aktual  : Akun berhasil dibuat, login berhasil
+    Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+13. KONFIRMASI PASSWORD TIDAK COCOK
+    Input   : Password: budi123 | Konfirmasi: budi999
+    Harapan : Muncul pesan "Konfirmasi password tidak cocok"
+              Akun TIDAK tersimpan
+    Aktual  : Validasi server aktif, pesan error tampil
+    Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+14. AKSES HALAMAN ADMIN OLEH KARYAWAN
+    Input   : Login sebagai Karyawan (budi01) lalu akses data_pengguna.php
+    Harapan : Karyawan diarahkan ke dashboard dengan pesan error akses
+              Halaman manajemen pengguna tidak tampil
+    Aktual  : Fungsi cekRole() menolak akses, redirect ke dashboard
+    Status  : ✓ PASS
+
+-------------------------------------------------------------------
+
+15. LOGOUT DARI SISTEM
+    Input   : Klik tombol "Logout" di sidebar
+    Harapan : Session dihancurkan, pengguna diarahkan ke halaman login
+              Halaman dashboard tidak bisa diakses tanpa login ulang
+    Aktual  : Session berakhir, redirect ke login. Akses dashboard
+              tanpa login → redirect kembali ke login
+    Status  : ✓ PASS
+
+===================================================================
+  KESIMPULAN UJI COBA:
+  Total Skenario : 15
+  PASS           : 15
+  FAIL           : 0
+  Hasil          : Seluruh fitur berfungsi sesuai yang diharapkan.
+                   Sistem dinyatakan LAYAK diimplementasikan.
+===================================================================

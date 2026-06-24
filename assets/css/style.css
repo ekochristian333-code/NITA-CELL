@@ -1,0 +1,336 @@
+/* =====================================================
+   Sistem Informasi Inventory Nita Cell
+   Custom Theme - Biru Tosca
+   ===================================================== */
+
+:root {
+    --tosca: #0d9488;
+    --tosca-dark: #0f766e;
+    --tosca-light: #ccfbf1;
+    --navy: #0e3a4d;
+    --bg-soft: #f4f9fa;
+    --sidebar-width: 250px;
+}
+
+* {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-soft);
+}
+
+/* ===================== LOGIN PAGE ===================== */
+.login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--tosca) 0%, var(--navy) 100%);
+    padding: 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 2.5rem 2rem;
+}
+
+.brand-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+    background: var(--tosca-light);
+    color: var(--tosca-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.brand-logo {
+    width: 88px;
+    height: 88px;
+    margin: 0 auto;
+}
+
+.brand-logo img {
+    width: 88px;
+    height: 88px;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+}
+
+.btn-tosca {
+    background-color: var(--tosca);
+    border-color: var(--tosca);
+    color: #fff;
+}
+.btn-tosca:hover, .btn-tosca:focus, .btn-tosca:active {
+    background-color: var(--tosca-dark);
+    border-color: var(--tosca-dark);
+    color: #fff;
+}
+
+.toggle-password {
+    cursor: pointer;
+}
+
+/* ===================== APP LAYOUT ===================== */
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--navy) 0%, #16515f 100%);
+    color: #fff;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .sidebar-brand {
+    padding: 1.25rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar .sidebar-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin: 0 auto 0.4rem;
+    display: block;
+    background: rgba(255,255,255,0.08);
+    padding: 2px;
+}
+
+.sidebar .sidebar-brand .brand-icon-sm {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 0.5rem;
+    background: var(--tosca);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: 0.7rem 1.25rem;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: background 0.15s;
+}
+
+.sidebar .nav-link i {
+    font-size: 1.1rem;
+    width: 22px;
+    text-align: center;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.sidebar .nav-link.active {
+    background: var(--tosca);
+    color: #fff;
+    font-weight: 600;
+    border-left: 4px solid #fff;
+}
+
+.sidebar .nav-section-title {
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    padding: 0.75rem 1.25rem 0.25rem;
+}
+
+.sidebar .sidebar-footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+}
+
+/* Main content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+.content-area {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.sidebar-toggle-btn {
+    display: none;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    color: var(--navy);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    .sidebar-toggle-btn {
+        display: inline-block;
+    }
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 1025;
+    }
+    .sidebar-overlay.show {
+        display: block;
+    }
+}
+
+/* ===================== CARDS / WIDGETS ===================== */
+.stat-card {
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-card .stat-icon {
+    font-size: 2.6rem;
+    opacity: 0.35;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.stat-card.bg-tosca { background: linear-gradient(135deg, var(--tosca), var(--tosca-dark)); }
+.stat-card.bg-navy { background: linear-gradient(135deg, #1d6473, var(--navy)); }
+.stat-card.bg-warning-soft { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.stat-card.bg-danger-soft { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+
+.card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.card-header {
+    background: #fff;
+    border-bottom: 1px solid #eef2f3;
+    border-radius: 14px 14px 0 0 !important;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.table thead th {
+    background-color: var(--tosca-light);
+    color: var(--tosca-dark);
+    font-weight: 600;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f0fdfa;
+}
+
+.badge-stock-low {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+.badge-stock-ok {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.page-title {
+    color: var(--navy);
+    font-weight: 700;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--tosca);
+    border-color: var(--tosca);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--tosca-dark) !important;
+    border-color: var(--tosca-dark) !important;
+}
+.btn-outline-primary {
+    color: var(--tosca);
+    border-color: var(--tosca);
+}
+.btn-outline-primary:hover {
+    background-color: var(--tosca);
+    border-color: var(--tosca);
+    color: #fff;
+}
+
+a {
+    color: var(--tosca-dark);
+}
+
+/* Login button avatar */
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--tosca-light);
+    color: var(--tosca-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
